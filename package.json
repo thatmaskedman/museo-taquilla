@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/thatmaskedman/museo-taquilla/issues"
   },
-  "homepage": "https://github.com/thatmaskedman/museo-taquilla#readme"
+  "homepage": "https://github.com/thatmaskedman/museo-taquilla#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
