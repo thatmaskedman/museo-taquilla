@@ -4,7 +4,7 @@ CREATE TABLE `exhibiciones` (
   `descripcion` varchar(255) NOT NULL COMMENT 'Descripción de la Exhibición',
   `desde` date NOT NULL COMMENT 'Inicio de la Exhibición',
   `hasta` date NOT NULL COMMENT 'Fin de la Exhibición',
-  `precio` money COMMENT 'Precio por entrada.'
+  `precio` DECIMAL(20,2) COMMENT 'Precio por entrada.'
 );
 
 CREATE TABLE `tipos_de_cliente` (
@@ -34,8 +34,8 @@ CREATE TABLE `pedidos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Id del Pedido',
   `pago_de_pedido_id` int DEFAULT null COMMENT 'Id del Pago de este Pedido (si existe)',
   `nombre_cliente` varchar(255) COMMENT 'Nombre completo del comprador',
-  `subtotal` money NOT NULL DEFAULT 0 COMMENT 'Total por boletos sin promoción.',
-  `total` money NOT NULL DEFAULT 0 COMMENT 'Total con descuento de promociones.'
+  `subtotal` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total por boletos sin promoción.',
+  `total` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total con descuento de promociones.'
 );
 
 CREATE TABLE `detalles_pedidos` (
@@ -57,7 +57,7 @@ ALTER TABLE `promociones` ADD FOREIGN KEY (`exhibicion_id`) REFERENCES `exhibici
 
 ALTER TABLE `promociones` ADD FOREIGN KEY (`tipo_de_cliente_id`) REFERENCES `tipos_de_cliente` (`id`);
 
-ALTER TABLE `pagos_de_pedidos` ADD FOREIGN KEY (`id`) REFERENCES `pedidos` (`pago_de_pedido_id`);
+ALTER TABLE `pedidos` ADD FOREIGN KEY (`pago_de_pedido_id`) REFERENCES `pagos_de_pedidos` (`id`);
 
 ALTER TABLE `detalles_pedidos` ADD FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`id`);
 
