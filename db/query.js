@@ -1,4 +1,4 @@
-const conn = require('../../conn');
+const conn = require('./conn');
 
 /**
  * **Promise** of a DB query.

@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { query } = require('../utils');
+const query = require('../query');
 
 const schemaQuery = fs.readFileSync(path.resolve(__dirname, './sql/schema.sql'), { encoding: 'utf8' });
 

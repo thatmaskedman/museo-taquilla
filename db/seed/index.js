@@ -13,7 +13,7 @@
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const fs = require('fs');
-const { query } = require('../utils');
+const query = require('../query');
 
 const queriesPath = path.resolve(__dirname, './sql') + path.sep;
 
