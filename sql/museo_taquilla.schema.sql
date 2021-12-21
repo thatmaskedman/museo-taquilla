@@ -1,4 +1,5 @@
 -- DROP TABLES IN REFERENCING ORDER
+DROP TABLE IF EXISTS `roles`;
 DROP TABLE IF EXISTS `detalles_pedidos`;
 DROP TABLE IF EXISTS `promociones`;
 DROP TABLE IF EXISTS `tipos_de_cliente`;
@@ -62,6 +63,11 @@ CREATE TABLE `transacciones_fallidas` (
   `terminacion_tarjeta` varchar(4) NOT NULL COMMENT 'Terminación de la tarjeta utilizada.',
   `fecha` timestamp NOT NULL COMMENT 'Momento en el que falló la transacción.',
   `pedido_id` int NOT NULL COMMENT 'Id del Pedido'
+);
+
+CREATE TABLE `roles` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL
 );
 
 -- DEFINE FOREIGN KEY CONSTRAINTS
