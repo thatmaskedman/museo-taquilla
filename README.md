@@ -18,9 +18,13 @@ Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la b
 
 ### 1.2 Correr el script de creación de tablas.
 
-```mysql -u [user] -p"[password]" [schema] < sql\museo_taquilla.schema.sql```
+```mysql -u [user] -p"[password]" [schema] --default-character-set utf8mb4 < sql\museo_taquilla.schema.sql```
 
 Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la base de datos reservada para este proyecto.
+
+La bandera `--default-character-set` sigue siendo necesaria cuando se corre un script SQL en la CLI de esta forma, a pesar de haber definido la codificación deseada de la base de datos en el paso __1.1__.
+
+Naturalmente, una alternativa a usar este comando es correr el archivo de SQL desde una IDE como MySQL Workbench.
 
 
 ## 2. Definir variables de entorno
