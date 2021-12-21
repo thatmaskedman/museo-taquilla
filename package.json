@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "migrate": "node ./db/migrate",
+    "seed": "node ./db/seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
