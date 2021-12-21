@@ -37,6 +37,9 @@ jobs:
           mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: 'root' # Required if "mysql user" exists. The password for the "mysql user"
 
+      - name: Wait for MySQL
+        run: sleep 15
+
       # Runs a single command using the runners shell
       - name: Run the SQL script
         run: mysql -u root -p"root" 'testdb' < './sql/museo_taquilla.schema.sql'
