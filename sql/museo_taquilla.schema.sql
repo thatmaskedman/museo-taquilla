@@ -76,6 +76,8 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(255) NOT NULL,
   `primer_apellido` varchar(255) NOT NULL,
   `segundo_apellido` varchar(255) NOT NULL,
+  `usuario` varchar(255) NOT NULL COMMENT 'Usuario para las credenciales de autenticación.',
+  `password` varchar(255) NOT NULL COMMENT 'Contraseña para las credenciales de autenticación.',
   `rol_id` int COMMENT 'Id del rol que tiene el usuario'
 );
 
@@ -101,5 +103,5 @@ INSERT INTO `roles` VALUES
   (null, 'Encargado de Taquilla'), (null, 'Administrador de Taquilla');
 
 INSERT INTO `usuarios` VALUES
-  (null, 'John', 'Doe', 'Rodríguez', 1),
-  (null, 'Jane', 'Doe', 'Ballesteros', 2);
+  (null, 'John', 'Doe', 'Rodríguez', '', '', 1),
+  (null, 'Jane', 'Doe', 'Ballesteros', '', '', 2);
