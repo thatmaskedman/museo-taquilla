@@ -25,15 +25,15 @@ CREATE TABLE `promociones` (
 CREATE TABLE `pagos_de_pedidos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Id del Pago de Pedido',
   `en_efectivo` bool COMMENT 'Indica si el pago fue realizado en efectivo.',
-  `terminacion_tarjeta` varchar(4) NOT NULL COMMENT 'Terminación de la tarjeta utilizada (si aplica).',
-  `no_transaccion` int NOT NULL COMMENT 'Número de transacción bancaria (si aplica)',
+  `terminacion_tarjeta` varchar(4)DEFAULT null  COMMENT 'Terminación de la tarjeta utilizada (si aplica).',
+  `no_transaccion` int DEFAULT null COMMENT 'Número de transacción bancaria (si aplica)',
   `fecha` datetime COMMENT 'Fecha en la que se realiza este pago.'
 );
 
 CREATE TABLE `pedidos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Id del Pedido',
   `pago_de_pedido_id` int DEFAULT null COMMENT 'Id del Pago de este Pedido (si existe)',
-  `nombre_cliente` varchar(255) COMMENT 'Nombre completo del comprador',
+  `nombre_cliente` varchar(255) DEFAULT null COMMENT 'Nombre completo del comprador',
   `correo` varchar(255) COMMENT 'Correo electrónico del comprador',
   `subtotal` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total por boletos sin promoción.',
   `total` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total con descuento de promociones.'
