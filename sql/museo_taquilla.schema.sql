@@ -1,3 +1,13 @@
+-- DROP TABLES IN REFERENCING ORDER
+DROP TABLE IF EXISTS `detalles_pedidos`;
+DROP TABLE IF EXISTS `promociones`;
+DROP TABLE IF EXISTS `tipos_de_cliente`;
+DROP TABLE IF EXISTS `transacciones_fallidas`;
+DROP TABLE IF EXISTS `exhibiciones`;
+DROP TABLE IF EXISTS `pedidos`;
+DROP TABLE IF EXISTS `pagos_de_pedidos`;
+
+-- CREATE TABLES
 CREATE TABLE `exhibiciones` (
   `id` int PRIMARY KEY COMMENT 'Id de la Exhibicion',
   `nombre` varchar(255) NOT NULL COMMENT 'Nombre de la Exhibicion',
@@ -54,6 +64,7 @@ CREATE TABLE `transacciones_fallidas` (
   `pedido_id` int NOT NULL COMMENT 'Id del Pedido'
 );
 
+-- DEFINE FOREIGN KEY CONSTRAINTS
 ALTER TABLE `promociones` ADD FOREIGN KEY (`exhibicion_id`) REFERENCES `exhibiciones` (`id`);
 
 ALTER TABLE `promociones` ADD FOREIGN KEY (`tipo_de_cliente_id`) REFERENCES `tipos_de_cliente` (`id`);
