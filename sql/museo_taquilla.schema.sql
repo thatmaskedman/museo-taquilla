@@ -25,8 +25,8 @@ CREATE TABLE `promociones` (
 CREATE TABLE `pagos_de_pedidos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Id del Pago de Pedido',
   `en_efectivo` bool COMMENT 'Indica si el pago fue realizado en efectivo.',
-  `terminacion_tarjeta` varchar(4) COMMENT 'Terminación de la tarjeta utilizada (si aplica).',
-  `no_transaccion` int COMMENT 'Número de transacción bancaria (si aplica)',
+  `terminacion_tarjeta` varchar(4) NOT NULL COMMENT 'Terminación de la tarjeta utilizada (si aplica).',
+  `no_transaccion` int NOT NULL COMMENT 'Número de transacción bancaria (si aplica)',
   `fecha` datetime COMMENT 'Fecha en la que se realiza este pago.'
 );
 
