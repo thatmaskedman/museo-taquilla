@@ -36,16 +36,19 @@ jobs:
           # mysql root password: 'root' # Required if "mysql user" is empty, default is empty. The root superuser password
           mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: 'root' # Required if "mysql user" exists. The password for the "mysql user"
-
+          
       - name: Start MySQL
         run: sudo systemctl start mysql
         
       - name: Wait for MySQL
         run: sleep 15
+        
+      - name: Create Database
+        run: mysql -u root -p"root" -e "CREATE DATABASE testdb DEFAULT CHARACTER SET utf8;"
 
       # Runs a single command using the runners shell
       - name: Run the SQL script
-        run: mysql -u root -p"root" 'testdb' < './sql/museo_taquilla.schema.sql'
+        run: mysql -u root -p"root" testdb < './sql/museo_taquilla.schema.sql'
 
       # Runs a set of commands using the runners shell
 #       - name: Run a multi-line script
