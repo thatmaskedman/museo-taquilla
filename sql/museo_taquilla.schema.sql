@@ -1,4 +1,5 @@
 -- DROP TABLES IN REFERENCING ORDER
+DROP TABLE IF EXISTS `usuarios`;
 DROP TABLE IF EXISTS `roles`;
 DROP TABLE IF EXISTS `detalles_pedidos`;
 DROP TABLE IF EXISTS `promociones`;
@@ -70,6 +71,14 @@ CREATE TABLE `roles` (
   `nombre` varchar(255) NOT NULL
 );
 
+CREATE TABLE `usuarios` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `primer_apellido` varchar(255) NOT NULL,
+  `segundo_apellido` varchar(255) NOT NULL,
+  `rol_id` int COMMENT 'Id del rol que tiene el usuario'
+);
+
 -- DEFINE FOREIGN KEY CONSTRAINTS
 ALTER TABLE `promociones` ADD FOREIGN KEY (`exhibicion_id`) REFERENCES `exhibiciones` (`id`);
 
@@ -84,3 +93,5 @@ ALTER TABLE `detalles_pedidos` ADD FOREIGN KEY (`exhibicion_id`) REFERENCES `exh
 ALTER TABLE `detalles_pedidos` ADD FOREIGN KEY (`promocion_id`) REFERENCES `promociones` (`id`);
 
 ALTER TABLE `transacciones_fallidas` ADD FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`id`);
+
+ALTER TABLE `usuarios` ADD FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
