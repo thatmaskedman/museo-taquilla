@@ -34,6 +34,7 @@ CREATE TABLE `pedidos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Id del Pedido',
   `pago_de_pedido_id` int DEFAULT null COMMENT 'Id del Pago de este Pedido (si existe)',
   `nombre_cliente` varchar(255) COMMENT 'Nombre completo del comprador',
+  `correo` varchar(255) COMMENT 'Correo electrónico del comprador',
   `subtotal` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total por boletos sin promoción.',
   `total` DECIMAL(20,2) NOT NULL DEFAULT 0 COMMENT 'Total con descuento de promociones.'
 );
