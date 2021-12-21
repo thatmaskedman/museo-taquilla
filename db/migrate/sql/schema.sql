@@ -97,11 +97,3 @@ ALTER TABLE `detalles_pedidos` ADD FOREIGN KEY (`promocion_id`) REFERENCES `prom
 ALTER TABLE `transacciones_fallidas` ADD FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`id`);
 
 ALTER TABLE `usuarios` ADD FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
-
--- INSERT CONSTANTS
-INSERT INTO `roles` VALUES
-  (null, 'Encargado de Taquilla'), (null, 'Administrador de Taquilla');
-
-INSERT INTO `usuarios` VALUES
-  (null, 'John', 'Doe', 'Rodríguez', '', '', 1),
-  (null, 'Jane', 'Doe', 'Ballesteros', '', '', 2);

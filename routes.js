@@ -1,4 +1,4 @@
-const conn = require('./db')
+const { conn } = require('./db')
 const router = require('express').Router()
 
 router.post('/exhibiciones', function(req, res){

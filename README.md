@@ -4,9 +4,9 @@ Backend de la entidad "Taquilla", parte del ecosistema para un Museo de la clase
 
 # Instalación
 
-## 1. Montar la Base de Datos
+## 1. Crear la Base de Datos
 
-Este proyecto está hecho para trabajar con MySQL/MariaDB. En caso de usar MariaDB, utilizar los comandos equivalentes para MariaDB de las instrucciones de a continuación.
+Este proyecto está hecho para trabajar con MySQL/MariaDB. En caso de usar MariaDB, utilizar el comando equivalente para MariaDB de la instrucción de a continuación.
 
 ### 1.1 Crear una base de datos para este proyecto.
 
@@ -15,16 +15,6 @@ La codificación recomendada para el proyecto es `utf8mb4` con colación `utf8mb
 ```mysql -u [user] -p"[password]" -e "CREATE DATABASE [schema] CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"```
 
 Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la base de datos reservada para este proyecto.
-
-### 1.2 Correr el script de creación de tablas.
-
-```mysql -u [user] -p"[password]" [schema] --default-character-set utf8mb4 < sql\museo_taquilla.schema.sql```
-
-Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la base de datos reservada para este proyecto.
-
-La bandera `--default-character-set` sigue siendo necesaria cuando se corre un script SQL en la CLI de esta forma, a pesar de haber definido la codificación deseada de la base de datos en el paso __1.1__.
-
-Naturalmente, una alternativa a usar este comando es correr el archivo de SQL desde una IDE como MySQL Workbench.
 
 
 ## 2. Definir variables de entorno
@@ -46,20 +36,30 @@ Naturalmente, una alternativa a usar este comando es correr el archivo de SQL de
 
 ```npm ci```
 
-## 4.A Para desarrollo
+## 4. Definir y poblar la Base de Datos
 
-### 4.A.1 Instalar `nodemon`
+### 4.1 Correr el script de creación de tablas.
+
+```npm run migrate```
+
+### 4.2 Correr el script de poblado de tablas.
+
+```npm run seed```
+
+## 5.A Para desarrollo
+
+### 5.A.1 Instalar `nodemon`
 Nodemon es un servidor de desarrollo que reacciona a las modificaciones de los archivos en tiempo real.
 
 ```npm i -g nodemon```
 
-### 4.A.2 Correr el servidor de `nodemon`.
+### 5.A.2 Correr el servidor de `nodemon`.
 
 ```nodemon .```
 
-## 4.B Para producción
+## 5.B Para producción
 
-### 4.B.1 Correr el servidor de `node`.
+### 5.B.1 Correr el servidor de `node`.
 
 ```node .```
 
