@@ -63,3 +63,12 @@ Nodemon es un servidor de desarrollo que reacciona a las modificaciones de los a
 
 ```node .```
 
+# Inspiración
+
+Esta implementación de Arquitectura Orientada a Servicios está basada en los siguientes repositorios y artículos (esta lista puede seguir expandiendose):
+
+1. https://github.com/ShankyTiwari/Microservices-in-Nodejs (SoA)
+2. https://github.com/JanssenBrm/api-gateway (SoA)
+3. https://github.com/zellwk/endpoint-testing-example (tests)
+4. https://www.nginx.com/blog/building-microservices-using-an-api-gateway/ (SoA)
+5. https://github.com/jeffbski/microservices (SoA)
