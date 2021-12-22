@@ -5,8 +5,11 @@
  *
  * @file    Sets up the database table structure.
  * @requires module:dotenv
+ * @requires module:path
  */
 
-require('dotenv').config();
+require('dotenv').config({
+    path: require('path').join(__dirname, '.env')
+});
 
 require('./server').start();
