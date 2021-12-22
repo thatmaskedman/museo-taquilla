@@ -3,7 +3,7 @@
  *
  * A script file that starts the `APIGateway` server.
  *
- * @file    Sets up the database table structure.
+ * @file    Starts the APiGateway server.
  * @requires module:dotenv
  * @requires module:path
  */
