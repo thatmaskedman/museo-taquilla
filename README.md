@@ -1,4 +1,4 @@
-# API de Taquilla (Museo S8A)
+# Backend de Taquilla (Museo S8A)
 
 Backend de la entidad "Taquilla", parte del ecosistema para un Museo de la clase de Desarrollo y Diseño de Sistemas Complejos (grupo S8A).
 
@@ -19,6 +19,8 @@ Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la b
 
 ## 2. Definir variables de entorno
 
+Dentro de cada servicio (APIGateway, UsuariosRepositorio, db, etc.) hace falta crear el respectivo archivo de variables de entorno.
+
 ### 2.1 Crear archivo de variables de entorno
 
 - Windows
@@ -36,6 +38,7 @@ Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la b
 
 ```npm ci```
 
+
 ## 4. Definir y poblar la Base de Datos
 
 ### 4.1 Correr el script de creación de tablas.
@@ -46,26 +49,34 @@ Reemplazar `user` y `password` por las credenciales de MySQL y `schema` por la b
 
 ```npm run seed```
 
+
 ## 5.A Para desarrollo
 
-### 5.A.1 Instalar `nodemon`
-Nodemon es un servidor de desarrollo que reacciona a las modificaciones de los archivos en tiempo real.
+### 5.A.1 Correr todos los servicios con `nodemon`
 
-```npm i -g nodemon```
+Nodemon es un servidor de desarrollo que reacciona a las modificaciones de los archivos en tiempo real. Aunque es recomendable tenerlo instalado de forma global, está presente como dependencia de desarrollo en este proyecto.
 
-### 5.A.2 Correr el servidor de `nodemon`.
+Este proyecto tiene un comando para inicializar el servidor de `nodemon` en todos los servicios que lo requieren desde una misma terminal con ayuda de la librería `shell-exec`:
 
-```nodemon .```
+```npm run watch```
+
+Si hace falta ejecutar sólamente un servicio en particular, se siguen las instrucciones en el README correspondiente.
+
 
 ## 5.B Para producción
 
-### 5.B.1 Correr el servidor de `node`.
+### 5.B.1 Correr todos los servicios con `node`.
 
-```node .```
+Así como en el caso de desarrollo, este proyecto tiene un comando para inicializar el servidor de `node` en todos los servicios que lo requieren desde una misma terminal:
+
+```npm run serve```
+
+Si hace falta ejecutar sólamente un servicio en particular, se siguen las instrucciones en el README correspondiente.
+
 
 # Inspiración
 
-Esta implementación de Arquitectura Orientada a Servicios está basada en los siguientes repositorios y artículos (esta lista puede seguir expandiendose):
+Esta implementación de Arquitectura Orientada a Servicios está basada en los siguientes repositorios y artículos (esta lista puede seguir creciendo):
 
 1. https://github.com/ShankyTiwari/Microservices-in-Nodejs (SoA)
 2. https://github.com/JanssenBrm/api-gateway (SoA)
