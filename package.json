@@ -6,7 +6,13 @@
   "scripts": {
     "migrate": "node ./db/migrate",
     "seed": "node ./db/seed",
-    "test": "jest --config ./jest.config.js"
+    "test": "jest --config ./jest.config.js",
+    "serve": "shell-exec \"npm run serve-api\" \"npm run serve-users\"",
+    "serve-api": "node ./APIGateway",
+    "serve-users": "node ./UsuariosRepositorio",
+    "watch": "shell-exec \"npm run watch-api\" \"npm run watch-users\"",
+    "watch-api": "nodemon ./APIGateway",
+    "watch-users": "nodemon ./UsuariosRepositorio"
   },
   "repository": {
     "type": "git",
@@ -27,11 +33,12 @@
     "express-http-proxy": "^1.6.3",
     "express-jwt": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "shell-executor": "^6.0.1"
   },
   "devDependencies": {
     "jest": "^27.4.5",
-    "parallelshell": "^3.0.2",
+    "nodemon": "^2.0.15",
     "supertest": "^6.1.6"
   }
 }
