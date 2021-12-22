@@ -58,6 +58,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+          
+      - name: Start MySQL
+        run: sudo systemctl start mysql
+        
+      - name: Wait for MySQL
+        run: sleep 5
+        
+      - name: Create Database
+        run: mysql -u root -p"root" -e "CREATE DATABASE testdb DEFAULT CHARACTER SET utf8;"
+        
+      - uses: actions/checkout@v2
         
       - uses: actions/setup-node@v2
         with:
