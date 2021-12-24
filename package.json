@@ -7,12 +7,14 @@
     "migrate": "node ./db/migrate",
     "seed": "node ./db/seed",
     "test": "jest --config ./jest.config.js",
-    "serve": "shell-exec \"npm run serve-api\" \"npm run serve-users\"",
+    "serve": "shell-exec \"npm run serve-api\" \"npm run serve-users\" \"npm run serve-carts\"",
     "serve-api": "node ./APIGateway",
     "serve-users": "node ./UsuariosRepositorio",
-    "watch": "shell-exec \"npm run watch-api\" \"npm run watch-users\"",
+    "serve-carts": "node ./PedidosRepositorio",
+    "watch": "shell-exec \"npm run watch-api\" \"npm run watch-users\" \"npm run watch-carts\"",
     "watch-api": "nodemon ./APIGateway",
-    "watch-users": "nodemon ./UsuariosRepositorio"
+    "watch-users": "nodemon ./UsuariosRepositorio",
+    "watch-carts": "nodemon ./PedidosRepositorio"
   },
   "repository": {
     "type": "git",
