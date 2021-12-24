@@ -11,6 +11,7 @@ class Routes {
 
     config() {
         this.app.use('/users', proxies.users);
+        this.app.use('/carts', proxies.carts);
     }
 }
 
