@@ -1,9 +1,9 @@
 /**
- * `UsuariosRepositorio` server script.
+ * `PedidosRepositorio` server script.
  *
- * A script file that starts the `UsuariosRepositorio` server.
+ * A script file that starts the `PedidosRepositorio` server.
  *
- * @file    Starts the UsuariosRepositorio server.
+ * @file    Starts the PedidosRepositorio server.
  * @requires module:dotenv
  * @requires module:path
  */
