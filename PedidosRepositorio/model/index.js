@@ -1,7 +1,7 @@
 const { query } = require('../../db');
 
 const SELECT = `SELECT * FROM pedidos`;
-const INSERT_CART = `INSERT INTO pedidos SET ?`;
+const INSERT_CART = `INSERT INTO pedidos`;
 const INSERT_ITEM = `INSERT INTO detalles_pedidos SET ?`;
 
 /**
@@ -19,12 +19,11 @@ const list = async (params = undefined) => {
 /**
  * Store a cart in database.
  * 
- * @param {Object} data Cart data.
- * @returns {Array}
+ * @returns {Number}    Inserted id.
  */
-const store = async (data) => {
-    return await query(INSERT_CART, params)
-                .then(res => res)
+const store = async () => {
+    return await query(`${INSERT_CART} VALUES ()`)
+                .then(res => res.resultId)
                 .catch(err => { throw err });
 }
 
@@ -32,11 +31,15 @@ const store = async (data) => {
  * Store a new cart item.
  * 
  * @param {Object} data New item data.
- * @returns {Number}    Inserted id.
+ * @returns {Number}    New item id.
  */
 const add = async (data) => {
+    if (data.pedido_id === undefined) {
+        data.pedido_id = await store();
+    }
+
     return await query(INSERT_ITEM, data)
-                .then(res => ({ id: res.result_id, ...data }))
+                .then(res => ({ id: res.resultId, ...data }))
                 .catch(err => { throw err });
 }
 
