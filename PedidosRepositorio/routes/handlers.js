@@ -1,11 +1,11 @@
 const model = require('../model');
 const { RepositorioException } = require('../exceptions');
 
-const list = (req, res, next) => {
-    model.list().then(users => {
+const get = (req, res, next) => {
+    model.get(req.params.id).then(cart => {
         res.json({
             success: true,
-            data: users
+            data: cart
         });
     })
     .catch(err => {
@@ -47,6 +47,6 @@ const handleError = (err, res) => {
 }
 
 module.exports = {
-    list,
+    get,
     add
 }

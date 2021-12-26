@@ -53,3 +53,26 @@ describe('Add item', () => {
         });
     })
 })
+
+test('Get cart info', () => {
+    
+    // arrange
+    const cart = carts[Math.floor(Math.random() * carts.length)];
+    cart.items = items.filter(i => i.pedido_id === cart.id);
+
+    // mock query inside get() method
+    query.mockResolvedValueOnce({
+        ...cart, items: undefined
+    })
+    // mock query inside getItems() method
+    .mockResolvedValueOnce([
+        ...cart.items
+    ]);
+
+    // act
+    return model.get(cart.id).then(resp => {
+
+        // assert
+        expect(resp).toEqual(cart);
+    });
+})

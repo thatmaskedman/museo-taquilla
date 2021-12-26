@@ -1,17 +1,34 @@
 const { query } = require('../../db');
 
-const SELECT = `SELECT * FROM pedidos`;
+const SELECT_CARTS = `SELECT * FROM pedidos`;
+const SELECT_ITEMS = `SELECT * FROM detalles_pedidos`;
 const INSERT_CART = `INSERT INTO pedidos`;
 const INSERT_ITEM = `INSERT INTO detalles_pedidos SET ?`;
 
 /**
- * Fetch a listing of the users.
+ * Get information of a cart.
  * 
- * @param {Object} params Search filters.
+ * @param   {Number} id Cart id.
+ * @returns {Object}
+ */
+const get = async (id) => {
+    const cart = await query(`${SELECT_CARTS} WHERE id = ? LIMIT 1`, id)
+                .then(res => res)
+                .catch(err => { throw err });
+
+    cart.items = await getItems(id);
+
+    return cart;
+}
+
+/**
+ * Fetch a listing of a cart's items.
+ * 
+ * @param   {Number} id Cart id.
  * @returns {Array}
  */
-const list = async (params = undefined) => {
-    return await query(`${SELECT} WHERE ?`, params)
+const getItems = async (id) => {
+    return await query(`${SELECT_ITEMS} WHERE pedido_id = ?`, id)
                 .then(res => res)
                 .catch(err => { throw err });
 }
@@ -45,6 +62,6 @@ const add = async (data) => {
 
 
 module.exports = {
-    list,
+    get,
     add
 };

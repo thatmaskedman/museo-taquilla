@@ -10,7 +10,8 @@ class Routes {
     }
 
     config() {
-        this.app.use('/items', handlers.add);
+        this.app.get('/:id', handlers.get);
+        this.app.post('/items', handlers.add);
     }
 }
 
