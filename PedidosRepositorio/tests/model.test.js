@@ -1,5 +1,4 @@
 // 1. Mock imports
-jest.mock('../../db/connect');
 jest.mock('../../db/query');
 
 // 2. Load Test Data
@@ -74,5 +73,38 @@ test('Get cart info', () => {
 
         // assert
         expect(resp).toEqual(cart);
+    });
+})
+
+test('Update cart item', () => {
+    
+    // arrange
+    const item = items[Math.floor(Math.random() * items.length)];
+
+    const data = { cantidad_boletos: Math.random() * 10 }
+
+    // mock query inside updateItem() method
+    query.mockResolvedValueOnce({})
+
+    // act
+    return model.updateItem(item.id, data).then(resp => {
+
+        // assert
+        expect(resp).toBeUndefined();
+    });
+})
+
+test('Get cart item', () => {
+    
+    // arrange
+    const item = items[Math.floor(Math.random() * items.length)];
+
+    query.mockResolvedValueOnce(item)
+
+    // act
+    return model.getItem(item.id).then(resp => {
+
+        // assert
+        expect(resp).toEqual(item);
     });
 })

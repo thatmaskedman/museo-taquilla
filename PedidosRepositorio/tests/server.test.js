@@ -68,3 +68,21 @@ test('Get cart info', async () => {
     expect(res.body.success).toBe(true);
     expect(res.body.data).toEqual(cart);
 })
+
+test('Update cart item', async () => {
+    // arrange
+    const item = items[Math.floor(Math.random() * items.length)];
+
+    const data = { cantidad_boletos: Math.random() * 10 }
+
+    model.updateItem.mockResolvedValue({});
+
+    model.getItem.mockResolvedValue({ ...item, ...data });
+
+    // act
+    const res = await request.put('/items/' + item.id);
+
+    // assert
+    expect(res.body.success).toBe(true);
+    expect(res.body.data).toEqual({ ...item, ...data });
+})

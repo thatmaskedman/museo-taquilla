@@ -25,6 +25,22 @@ const add = (req, res, next) => {
     })
 }
 
+const updateItem = (req, res, next) => {
+    model.updateItem(req.params.id, req.body)
+    .then(() =>
+        model.getItem(req.params.id)
+    )
+    .then(result => {
+        res.json({
+            success: true,
+            data: result
+        });
+    })
+    .catch(err => {
+        handleError(err, res);
+    })
+}
+
 /**
  * Catch-all error handler.
  * 
@@ -41,12 +57,14 @@ const handleError = (err, res) => {
     } else {
         res.status(500).json({
             success: false,
-            message: 'Hubo un error al procesar la solicitud.'
+            message: 'Hubo un error al procesar la solicitud.',
+            debug: err.message
         })
     }
 }
 
 module.exports = {
     get,
-    add
+    add,
+    updateItem
 }
