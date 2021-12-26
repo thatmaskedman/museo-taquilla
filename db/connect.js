@@ -18,4 +18,15 @@ const onConnected = err => {
   console.log("Connected!");
 }
 
-module.exports = () => connection.connect(onConnected);
+const onDisconnected = err => {      
+  if (err) throw err;
+  
+  console.log("Successfuly disconnected!");
+}
+
+module.exports = () => {
+  connection.end(onDisconnected);
+  connection.connect(onConnected);
+
+  return connection;
+};
