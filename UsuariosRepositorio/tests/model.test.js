@@ -1,5 +1,5 @@
 // 1. Mock imports
-jest.mock('../../db/conn');
+jest.mock('../../db/connect');
 jest.mock('../../db/query');
 
 // 2. Load Test Data

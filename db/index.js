@@ -1,7 +1,7 @@
-const conn      = require('./conn');
+const connect      = require('./connect');
 const query     = require('./query');
 
 module.exports = {
-    conn,
+    connect,
     query
 }
