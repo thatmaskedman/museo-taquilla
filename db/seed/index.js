@@ -6,16 +6,52 @@
  * @file    Defines and inserts the database default records.
  * @requires module:fs
  * @requires module:path
- * @requires module:bcryptjs
  * @author Germán Adolfo Celaya Gamboa
  */
 
-const bcrypt = require('bcryptjs');
+const query = require('../query');
 const path = require('path');
 const fs = require('fs');
-const query = require('../query');
+
+const withTestData = !!process.env.TEST;
 
 const queriesPath = path.resolve(__dirname, './sql') + path.sep;
+
+const generateSeeder = (command, data, name = 'table') => async () => {
+    console.log(`Seeding ${name}...`)
+
+    return await Promise
+        .all(
+            data.map(record => query(command, record))
+        )
+        .then(
+            console.log(`${name} seeded!`)
+        );
+}
+
+/**
+ * Seed exhibitions
+ */
+
+const exhibitionQuery = fs.readFileSync(queriesPath + 'exhibition.sql', { encoding: 'utf8' });
+
+const seedExhibitions = generateSeeder(exhibitionQuery, require('./data/exhibitions'), 'exhibitions');
+
+/**
+ * Seed carts
+ */
+
+const cartQuery = fs.readFileSync(queriesPath + 'cart.sql', { encoding: 'utf8' });
+
+const seedCarts = generateSeeder(cartQuery, require('./data/carts'), 'carts');
+
+/**
+ * Seed cart items
+ */
+
+const itemQuery = fs.readFileSync(queriesPath + 'item.sql', { encoding: 'utf8' });
+
+const seedItems = generateSeeder(itemQuery, require('./data/items'), 'items');
 
 /**
  * Seed roles
@@ -23,59 +59,39 @@ const queriesPath = path.resolve(__dirname, './sql') + path.sep;
 
 const roleQuery = fs.readFileSync(queriesPath + 'role.sql', { encoding: 'utf8' });
 
-const roles = ['Encargado de Taquilla', 'Administrador de Taquilla'];
-
-console.log('Seeding roles...')
-
-Promise
-    .all(
-        roles.map(name => query(roleQuery, [name]))
-    )
-    .then(() => {
-        console.log('Roles seeded!')
-    })
-    .catch(err => {
-        throw err
-    })
+const seedRoles = generateSeeder(roleQuery, require('./data/roles'), 'roles');
 
 /**
  * Seed users
  */
 
 const userQuery = fs.readFileSync(queriesPath + 'user.sql', { encoding: 'utf8' });
-const defaultPassword = bcrypt.hashSync('admin');
 
-const users = [{
-    nombre: 'John',
-    primer_apellido: 'Doe',
-    segundo_apellido: 'Rodríguez',
-    usuario: 'encargado',
-    password: defaultPassword,
-    rol_id: 1 // Encargado de Taquilla
-}, {
-    nombre: 'Jane',
-    primer_apellido: 'Doe',
-    segundo_apellido: 'Ballesteros',
-    usuario: 'admin',
-    password: defaultPassword,
-    rol_id: 2 // Administrador de Taquilla
-}];
+const seedUsers = generateSeeder(userQuery, require('./data/users'), 'users');
 
-console.log('Seeding users...')
+/**
+ * Call seeders
+ */
+
+const seeders = [];
+
+if (withTestData) {
+    seeders.push(seedExhibitions, seedCarts, seedItems);
+}
+
+seeders.push(seedRoles, seedUsers);
 
 Promise
     .all(
-        users.map(user => query(userQuery, user))
+        seeders.map(call => call())
     )
-    .then(() => {    
-        console.log('Users seeded!');
-
-        console.log('Database seeding successful.');
-    })
-    .catch(err => {
-        throw err
-    })
-    .finally(() => {
+    .then(
+        () => console.log('Database seeding successful.')
+    )
+    .catch(
+        err => { throw err }
+    )
+    .finally( () => {
         if (require.main === module) {
             process.exit();
         }

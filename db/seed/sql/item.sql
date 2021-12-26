@@ -1,0 +1,1 @@
+INSERT INTO `detalles_pedidos` SET ?;
