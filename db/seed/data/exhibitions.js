@@ -16,7 +16,7 @@ module.exports = [
        precio: 25.00
     },
     {
-       id: 2,
+       id: 3,
        nombre: 'E 3',
        descripcion: 'E 3 desc',
        desde: '2022-06-02',
