@@ -33,6 +33,25 @@ describe('Add item', () => {
         expect(res.body.success).toBe(true);
         expect(res.body.data).toEqual(item);
     })
+
+    test('to new cart', async () => {
+        // arrange
+        const item = items[Math.floor(Math.random() * items.length)]
+
+        delete item.pedido_id;
+        
+        const new_cart_id = Math.ceil(Math.random() * 10)
+
+        model.add.mockResolvedValue({ ...item, pedido_id: new_cart_id });
+
+        // act
+        const res = await request.post('/items')
+            .send({id: undefined, pedido_id: undefined, ...item});
+
+        // assert
+        expect(res.body.success).toBe(true);
+        expect(res.body.data).toEqual({ ...item, pedido_id: new_cart_id });
+    })
 })
 
 test('Get cart info', async () => {
