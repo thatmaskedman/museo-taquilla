@@ -28,6 +28,16 @@ const login = (req, res) => {
         })
 }
 
+const logout = (req, res) => {
+    model.logout(req.user)
+        .then(() => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            handleError(err, res);
+        })
+}
+
 /**
  * Catch-all error handler.
  * 
@@ -41,6 +51,11 @@ const handleError = (err, res) => {
             success: false,
             message: err.message
         })
+    } else if (err.name === 'UnauthorizedError') {
+        res.status(401).json({
+            success: false,
+            message: 'Esta acción sólo está disponible para usuarios autenticados.'
+        })
     } else {
         res.status(500).json({
             success: false,
@@ -52,5 +67,7 @@ const handleError = (err, res) => {
 
 module.exports = {
     list,
-    login
+    login,
+    logout,
+    handleError
 }
