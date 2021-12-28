@@ -13,8 +13,8 @@ const query = (sql, values = undefined) => (
     new Promise((resolve, reject) => (
         connect().query(sql, values, (err, result) => {
             if (err) reject(err);
-
-            resolve(result);
+            
+            else resolve(result);
         })
     ))
 )
