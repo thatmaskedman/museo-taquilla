@@ -1,4 +1,5 @@
 -- DROP TABLES IN REFERENCING ORDER
+DROP TABLE IF EXISTS `blacklisted_tokens`;
 DROP TABLE IF EXISTS `usuarios`;
 DROP TABLE IF EXISTS `roles`;
 DROP TABLE IF EXISTS `detalles_pedidos`;
@@ -79,6 +80,12 @@ CREATE TABLE `usuarios` (
   `usuario` varchar(255) NOT NULL COMMENT 'Usuario para las credenciales de autenticación.',
   `password` varchar(255) NOT NULL COMMENT 'Contraseña para las credenciales de autenticación.',
   `rol_id` int COMMENT 'Id del rol que tiene el usuario'
+);
+
+CREATE TABLE `blacklisted_tokens` (
+  `jti` varchar(255) PRIMARY KEY COMMENT 'JWT token identified claim',
+  `iat` varchar(255) COMMENT 'JWT issued at claim',
+  `sub` int NOT NULL COMMENT 'JWT subject (user id)'
 );
 
 -- DEFINE FOREIGN KEY CONSTRAINTS
