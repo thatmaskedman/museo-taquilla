@@ -64,7 +64,7 @@ describe('Get blacklist status', () => {
         model.isBlacklisted(token).then(resp => {
     
             // assert
-            expect(resp).toBeTrue();
+            expect(resp).toBe(true);
         });
     })
 
@@ -79,7 +79,7 @@ describe('Get blacklist status', () => {
         model.isBlacklisted(token).then(resp => {
     
             // assert
-            expect(resp).toBeFalse();
+            expect(resp).toBe(false);
         });
     })
 })
