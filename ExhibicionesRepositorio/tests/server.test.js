@@ -5,7 +5,7 @@ jest.mock('../model');
 
 const model = require('../model');
 const supertest = require('supertest');
-const NotFoundException = require('../exceptions/NotFoundException');
+const { exhibitions } = require('./data');
 var request;
 
 beforeAll(() => {
@@ -15,29 +15,31 @@ beforeAll(() => {
     request         = supertest(app);
 })
 
-test ('listar exhibiciones', async () => {
-    const exh =  [{
-        id: 1,
-        nombre: 'mona lisa',
-        descripcion: 'pintura de italia',
-        desde: '2021-11-05',
-        hasta: '2021-12-29',
-        precio: '0.00'
-    }, {
-        id: 2,
-        nombre: 'american gothic',
-        descripcion: 'pintura de kansas',
-        desde: '2021-11-05',
-        hasta: '2021-12-29',
-        precio: '0.00'
-    }];
-    model.list.mockResolvedValue(exh);
-    const res = await request.get('/');
-    expect(res.body.success).toBe(true);
-    expect(res.body.data).toEqual(exh);
+describe('List exhibitions', () => {
+
+    beforeEach(() => {
+        model.list.mockResolvedValue(exhibitions);
+    })
+
+    test('unfiltered', async () => {
+        // act
+        const res = await request.get('/');
+
+        // assert
+        expect(res.body.success).toBe(true);
+        expect(res.body.data).toEqual(exhibitions);
+
+        expect(model.list.mock.calls[0][0]).toEqual(expect.not.objectContaining({ available: 'true' }))
+    })
+
+    test('available only', async () => {
+        // act
+        const res = await request.get('/?available=true');
+
+        // assert
+        expect(res.body.success).toBe(true);
+        expect(res.body.data).toEqual(exhibitions);
+
+        expect(model.list.mock.calls[0][0]).toEqual(expect.objectContaining({ available: 'true' }))
+    })
 })
-
-
-
-
-
