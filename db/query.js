@@ -1,4 +1,4 @@
-const conn = require('./conn');
+const connect = require('./connect');
 
 /**
  * **Promise** of a DB query.
@@ -11,10 +11,10 @@ const conn = require('./conn');
  */
 const query = (sql, values = undefined) => (
     new Promise((resolve, reject) => (
-        conn.query(sql, values, (err, result) => {
+        connect().query(sql, values, (err, result) => {
             if (err) reject(err);
-
-            resolve(result);
+            
+            else resolve(result);
         })
     ))
 )

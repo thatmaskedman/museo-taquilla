@@ -30,7 +30,7 @@ class Server {
         const host = config.host;
 
         this.app.listen(port, host, () => {
-            console.log(`UsuariosRepositorio listening on http://${host}:${port}`)
+            console.log(`PedidosRepositorio listening on http://${host}:${port}`)
         })
     }
 }

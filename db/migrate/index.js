@@ -20,9 +20,9 @@ query(schemaQuery)
     .then(() =>
         console.log('Migration successful.')
     )
-    .catch(err => {
-        throw err
-    })
+    .catch(err => 
+        console.log(err)
+    )
     .finally(() => {
         if (require.main === module) {
             process.exit();

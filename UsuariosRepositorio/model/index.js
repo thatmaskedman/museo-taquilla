@@ -3,6 +3,8 @@ const bcrypt    = require('bcryptjs');
 const { AuthenticationException } = require('../exceptions');
 
 const SELECT = `SELECT * FROM usuarios`;
+const INSERT_BLACKLIST = `INSERT INTO blacklisted_tokens SET ?`;
+const SELECT_BLACKLIST = `SELECT * FROM blacklisted_tokens`;
 
 /**
  * Fetch a listing of the users.
@@ -40,7 +42,37 @@ const login = async (username, password) => {
 }
 
 
+/**
+ * Blacklist an authentication token.
+ * 
+ * @param {String} payload JWT token payload.
+ * @returns {void}
+ */
+const logout = async (payload) => {
+    await query(INSERT_BLACKLIST, payload)
+                .catch(err => { throw err });
+}
+
+
+/**
+ * Wether a token is blacklisted.
+ * 
+ * @param {String} payload JWT token payload.
+ * @returns {Boolean}
+ */
+const isBlacklisted = async ({ jti }) => {
+    return await query(`${SELECT_BLACKLIST} WHERE ? LIMIT 1`, { jti })
+                .then(res => !!res?.length)
+                .catch(err => {
+                    console.log(err);
+                    return false; 
+                });
+}
+
+
 module.exports = {
     list,
-    login
+    login,
+    logout,
+    isBlacklisted
 };

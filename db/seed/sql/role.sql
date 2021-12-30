@@ -1,1 +1,1 @@
-INSERT INTO `roles` SET `nombre` = ?;
+INSERT INTO `roles` SET ?;

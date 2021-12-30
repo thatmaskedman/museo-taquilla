@@ -7,12 +7,15 @@
     "migrate": "node ./db/migrate",
     "seed": "node ./db/seed",
     "test": "jest --config ./jest.config.js",
-    "serve": "shell-exec \"npm run serve-api\" \"npm run serve-users\"",
+    "heroku": "serve",
+    "serve": "shell-exec \"npm run serve-api\" \"npm run serve-users\" \"npm run serve-carts\"",
     "serve-api": "node ./APIGateway",
     "serve-users": "node ./UsuariosRepositorio",
-    "watch": "shell-exec \"npm run watch-api\" \"npm run watch-users\"",
+    "serve-carts": "node ./PedidosRepositorio",
+    "watch": "shell-exec \"npm run watch-api\" \"npm run watch-users\" \"npm run watch-carts\"",
     "watch-api": "nodemon ./APIGateway",
-    "watch-users": "nodemon ./UsuariosRepositorio"
+    "watch-users": "nodemon ./UsuariosRepositorio",
+    "watch-carts": "nodemon ./PedidosRepositorio"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,7 @@
   "homepage": "https://github.com/thatmaskedman/museo-taquilla#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -34,7 +38,8 @@
     "express-jwt": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "shell-executor": "^6.0.1"
+    "shell-executor": "^6.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.4.5",

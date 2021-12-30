@@ -1,4 +1,5 @@
 const handlers = require('./handlers');
+const { protect } = require('../utils/jwt');
 
 class Routes {
     constructor (app) {
@@ -10,7 +11,12 @@ class Routes {
     }
 
     config() {
-        this.app.use('/login', handlers.login);
+        this.app.post('/login', handlers.login);
+        this.app.del('/logout', protect(), handlers.logout);
+
+        this.app.use((err, req, res, next) => {
+            return handlers.handleError(err, res)
+        });
     }
 }
 
