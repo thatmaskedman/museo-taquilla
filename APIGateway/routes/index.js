@@ -13,6 +13,7 @@ class Routes {
         this.app.use('/users', proxies.users);
         this.app.use('/exhibiciones', proxies.exhibiciones);
         this.app.use('/carts', proxies.carts);
+        this.app.use('/promociones', proxies.promociones);
     }
 }
 
