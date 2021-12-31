@@ -1,6 +1,7 @@
 const Middleware = require('./middleware');
 const Routes = require('./routes');
 const express = require('express');
+const config = require('./config');
 
 class Server {
     constructor() {
@@ -25,8 +26,8 @@ class Server {
     start() {
         this.config();
 
-        const port = process.env.PORT || 5000;
-        const host = process.env.HOST || 'localhost';
+        const port = config.port;
+        const host = config.host;
 
         this.app.listen(port, host, () => {
             console.log(`ExhibicionesRepositorio listening on http://${host}:${port}`)

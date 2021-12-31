@@ -5,29 +5,31 @@ jest.mock('../../db/query');
 
 const model = require('../model');
 const query = require('../../db/query');
+const { exhibitions } = require('./data');
 
 
-describe('listar exhibiciones', () => {
-    test('succesful', () => {
-        const exh = [{
-            id: 1,
-            nombre: 'mona lisa',
-            descripcion: 'pintura de italia',
-            desde: '2021-11-05',
-            hasta: '2021-12-29',
-            precio: '0.00'
-        }, {
-            id: 2,
-            nombre: 'american gothic',
-            descripcion: 'pintura de kansas',
-            desde: '2021-11-05',
-            hasta: '2021-12-29',
-            precio: '0.00'
-        }];
-        query.mockResolvedValue(exh)
+describe('List exhibitions', () => {
+    beforeEach(() => {
+        query.mockResolvedValue(exhibitions)
+    })
+
+    test('unfiltered', () => {
+
         model.list().then(resp => {
-            expect(resp).toEqual(exh);
+            expect(resp).toEqual(exhibitions);
+            
+            expect(query.mock.calls[0][0]).toEqual(expect.not.stringContaining('CURDATE()'))
+        });
+
+    })
+    
+    test('available only', () => {
+
+        model.list({ available: true }).then(resp => {
+            expect(resp).toEqual(exhibitions);
+
+            expect(query.mock.calls[0][0]).toEqual(expect.stringContaining('CURDATE()'))
         });
     })
-})
 
+})
