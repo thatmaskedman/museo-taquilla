@@ -120,7 +120,8 @@ module.exports = {
   roots: [
     "./UsuariosRepositorio/tests/",
     "./ExhibicionesRepositorio/tests/",   
-    "./PedidosRepositorio/tests/"
+    "./PedidosRepositorio/tests/",
+    "./PromocionesRepositorio"
   ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
