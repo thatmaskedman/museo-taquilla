@@ -33,3 +33,12 @@ describe('List exhibitions', () => {
     })
 
 })
+
+test ('update price', () => {
+    const exh = exhibitions[1];
+    const newprice = 2.00;
+    query.mockResolvedValueOnce({})
+    return model.update_exh_price(exh.id,newprice).then(resp => {
+        expect(resp).toBeUndefined();
+    });
+})
