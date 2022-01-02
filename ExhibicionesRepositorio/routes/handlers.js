@@ -37,4 +37,8 @@ const handleError = (err, res) => {
     }
 }
 
-module.exports = { list, handleError };
+const update_exh_price = (req, res, next) => {
+
+}
+
+module.exports = { list, handleError, update_exh_price };

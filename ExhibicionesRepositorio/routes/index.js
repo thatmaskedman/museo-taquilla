@@ -11,7 +11,7 @@ class Routes {
 
     config() {
         this.app.get('/', handlers.list);
-        
+       // this.app.put('/:id',handlers.update_exh_price);
         this.app.use((err, req, res, next) => {
             return handlers.handleError(err, res)
         });
