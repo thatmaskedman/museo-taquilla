@@ -1,7 +1,7 @@
 const { query } = require('../../db');
 
 const SELECT = `SELECT * FROM exhibiciones`;
-const UPDATE_PRICE = `UPDATE exhibiciones `;
+const UPDATE = `UPDATE exhibiciones `;
 
 /**
  * Get a listing of the exhibitions.
@@ -20,15 +20,29 @@ const list  = async ({ available = false }) => {
                 .then(res => res)
                 .catch(err => {throw err});
 }
+
 /**
- * update price
- * @id {int} id de la exhibicion que se quiere cambiar
- * @newprice {float} el nuevo precio para la exhibicion
+ * Get information of an exhibition.
+ * 
+ * @param   {Number} id Exhibition id
  * @returns {void}
  */
-const update_exh_price = async (id, newprice) => {
-    await query(`${UPDATE_PRICE} SET precio = ${newprice} WHERE id = ${id}`)
+const get = async (id) => {
+    await query(`${SELECT} WHERE id = ${id} LIMIT 1`)
+                .then(res => res)
                 .catch(err => { throw err });
 }
 
-module.exports = { list, update_exh_price };
+/**
+ * Update an exhibition.
+ * 
+ * @param   {Number} id Exhibition id
+ * @param   {Object} data New data.
+ * @returns {void}
+ */
+const update = async (id, data) => {
+    await query(`${UPDATE} SET ? WHERE id = ${id}`, data)
+                .catch(err => { throw err });
+}
+
+module.exports = { list, update, get };

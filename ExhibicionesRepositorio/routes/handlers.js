@@ -37,8 +37,22 @@ const handleError = (err, res) => {
     }
 }
 
-const update_exh_price = (req, res, next) => {
+const update = (req, res, next) => {
+    const { precio } = req.body
 
+    model.update(req.params.id, { precio })
+    .then(() => 
+        model.get(req.params.id)
+    )
+    .then(data => {
+        res.json({
+            success: true,
+            data
+        });
+    })
+    .catch(err => {
+        handleError(err, res);
+    })
 }
 
-module.exports = { list, handleError, update_exh_price };
+module.exports = { list, handleError, update };

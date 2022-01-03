@@ -34,11 +34,21 @@ describe('List exhibitions', () => {
 
 })
 
-test ('update price', () => {
-    const exh = exhibitions[1];
-    const newprice = 2.00;
-    query.mockResolvedValueOnce({})
-    return model.update_exh_price(exh.id,newprice).then(resp => {
+test('Update exhibition', () => {
+    // arrange
+    exhibition = exhibitions[Math.floor(Math.random() * exhibitions.length)]
+
+    const data = { precio: 40 }
+
+    query.mockResolvedValue({})
+
+    // act
+    model.update(exhibition.id, data).then(resp => {
+        
+        // assert
         expect(resp).toBeUndefined();
+        
+        expect(query.mock.calls[0][1]).toEqual(data)
     });
+
 })
