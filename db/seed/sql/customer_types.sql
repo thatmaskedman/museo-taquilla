@@ -1,0 +1,1 @@
+INSERT INTO `tipos_de_cliente` SET ?;
