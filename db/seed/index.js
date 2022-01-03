@@ -70,6 +70,14 @@ const userQuery = fs.readFileSync(queriesPath + 'user.sql', { encoding: 'utf8' }
 const seedUsers = generateSeeder(userQuery, require('./data/users'), 'users');
 
 /**
+ * Seed customer types
+ */
+
+const customerTypeQuery = fs.readFileSync(queriesPath + 'customer_types.sql', { encoding: 'utf8' });
+
+const seedCustomerTypes = generateSeeder(customerTypeQuery, require('./data/customer_types'), 'customer types');
+
+/**
  * Call seeders
  */
 
@@ -79,7 +87,7 @@ if (withTestData) {
     seeders.push(seedExhibitions, seedCarts, seedItems);
 }
 
-seeders.push(seedRoles, seedUsers);
+seeders.push(seedRoles, seedUsers, seedCustomerTypes);
 
 Promise
     .all(
