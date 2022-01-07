@@ -55,4 +55,18 @@ const update = (req, res, next) => {
     })
 }
 
-module.exports = { list, handleError, update };
+const receive = (req, res, next) => {
+    const data = req.body;
+    model.append(data)
+        .then(item => {
+            res.json({
+                success: true,
+                data:item
+            });
+        })
+        .catch(err => {
+            handleError(err, res);
+        })
+}
+
+module.exports = { list, handleError, update, receive};
