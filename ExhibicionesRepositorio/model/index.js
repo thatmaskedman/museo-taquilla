@@ -2,6 +2,7 @@ const { query } = require('../../db');
 
 const SELECT = `SELECT * FROM exhibiciones`;
 const UPDATE = `UPDATE exhibiciones `;
+const INSERT = 'INSERT into exhibiciones SET ?'
 
 /**
  * Get a listing of the exhibitions.
@@ -45,4 +46,16 @@ const update = async (id, data) => {
                 .catch(err => { throw err });
 }
 
-module.exports = { list, update, get };
+/**
+ * Appends an exhibition to the database.
+ * 
+ * @param   {Object} data New data.
+ * @returns {void}
+ */
+
+const append = async (data) => {     
+    return await query(INSERT, data)
+        .catch(err => { throw err });
+}
+
+module.exports = { list, update, get, append};
