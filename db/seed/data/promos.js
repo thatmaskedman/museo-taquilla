@@ -20,7 +20,7 @@ module.exports = [
       porcentaje: 0.8,
       cantidad: 1,
       vigencia: '2022-05-10',
-      dias_semana: 'Lun,Mie',
+      dias_semana: 'Mon,Wed',
       tipo_de_cliente_id: null
    },
    {
