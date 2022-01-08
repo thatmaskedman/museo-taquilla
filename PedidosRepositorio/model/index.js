@@ -53,7 +53,7 @@ const getItem = async (id) => {
  */
 const store = async () => {
     return await query(`${INSERT_CART} VALUES ()`)
-                .then(res => res.resultId)
+                .then(res => res.insertId)
                 .catch(err => { throw err });
 }
 
