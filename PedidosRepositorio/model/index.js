@@ -14,7 +14,7 @@ const UPDATE_ITEM = `UPDATE detalles_pedidos SET ?`;
  */
 const get = async (id) => {
     const cart = await query(`${SELECT_CARTS} WHERE id = ? LIMIT 1`, id)
-                .then(res => res)
+                .then(res => res[0])
                 .catch(err => { throw err });
 
     cart.items = await getItems(id);
