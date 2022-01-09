@@ -127,5 +127,6 @@ module.exports = {
     get,
     add,
     updateItem,
+    getItems,
     getItem
 };

@@ -11,6 +11,7 @@ class Routes {
 
     config() {
         this.app.get('/:id', handlers.get);
+        this.app.get('/:id/items', handlers.getItems);
         this.app.post('/items', handlers.add);
         this.app.put('/items/:id', handlers.updateItem);
     }

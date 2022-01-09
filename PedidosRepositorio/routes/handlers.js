@@ -27,6 +27,18 @@ const add = (req, res, next) => {
     })
 }
 
+const getItems = (req, res, next) => {
+    model.getItems(req.params.id).then(items => {
+        res.json({
+            success: true,
+            data: items
+        });
+    })
+    .catch(err => {
+        handleError(err, res);
+    })
+}
+
 const updateItem = (req, res, next) => {
     model.updateItem(req.params.id, req.body)
     .then(() =>
@@ -68,5 +80,6 @@ const handleError = (err, res) => {
 module.exports = {
     get,
     add,
-    updateItem
+    getItems,
+    updateItem,
 }
