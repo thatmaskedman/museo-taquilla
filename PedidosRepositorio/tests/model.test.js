@@ -14,15 +14,19 @@ describe('Add item', () => {
         const item = items[Math.floor(Math.random() * items.length)]
 
         // arrange
+
+        // inside model.searchItem()
+        query.mockResolvedValueOnce([])
+        // inside model.createItem()
         query.mockResolvedValue({
-            resultId: item.id
+            insertId: item.id
         })
     
         // act
         return model.add(item).then(resp => {
     
             // assert
-            expect(resp).toEqual(item);
+            expect(resp).toEqual(item.id);
         });
     })
 
@@ -37,18 +41,20 @@ describe('Add item', () => {
 
         // mock query inside store() method
         query.mockResolvedValueOnce({
-            resultId: new_cart_id
+            insertId: new_cart_id
         })
+        // mock query inside searchItem() method
+        query.mockResolvedValueOnce([])
         // mock query inside add() method
         .mockResolvedValueOnce({
-            resultId: item.id
+            insertId: item.id
         });
     
         // act
         return await model.add(item).then(resp => {
     
             // assert
-            expect(resp).toEqual({ ...item, pedido_id: new_cart_id });
+            expect(resp).toEqual(item.id);
         });
     })
 })
@@ -60,9 +66,9 @@ test('Get cart info', () => {
     cart.items = items.filter(i => i.pedido_id === cart.id);
 
     // mock query inside get() method
-    query.mockResolvedValueOnce({
-        ...cart, items: undefined
-    })
+    query.mockResolvedValueOnce([
+        { ...cart, items: undefined }
+    ])
     // mock query inside getItems() method
     .mockResolvedValueOnce([
         ...cart.items
@@ -84,13 +90,15 @@ test('Update cart item', () => {
     const data = { cantidad_boletos: Math.random() * 10 }
 
     // mock query inside updateItem() method
-    query.mockResolvedValueOnce({})
+    query.mockResolvedValueOnce({
+        insertId: item.id
+    })
 
     // act
     return model.updateItem(item.id, data).then(resp => {
 
         // assert
-        expect(resp).toBeUndefined();
+        expect(resp).toEqual(item.id);
     });
 })
 
@@ -99,7 +107,7 @@ test('Get cart item', () => {
     // arrange
     const item = items[Math.floor(Math.random() * items.length)];
 
-    query.mockResolvedValueOnce(item)
+    query.mockResolvedValueOnce([item])
 
     // act
     return model.getItem(item.id).then(resp => {

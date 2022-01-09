@@ -14,7 +14,9 @@ const get = (req, res, next) => {
 }
 
 const add = (req, res, next) => {
-    model.add(req.body).then(item => {
+    model.add(req.body)
+    .then(id => model.getItem(id))
+    .then(item => {
         res.json({
             success: true,
             data: item

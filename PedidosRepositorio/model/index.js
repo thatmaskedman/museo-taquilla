@@ -42,7 +42,19 @@ const getItems = async (id) => {
  */
 const getItem = async (id) => {
     return await query(`${SELECT_ITEMS} WHERE id = ? LIMIT 1`, id)
-                .then(res => res)
+                .then(res => res[0])
+                .catch(err => { throw err });
+}
+
+/**
+ * Get the first cart item that matches a search.
+ * 
+ * @param   {Object} params Cart item search fields.
+ * @returns {Object}
+ */
+const searchItem = async (params) => {
+    return await query(`${SELECT_ITEMS} WHERE ? LIMIT 1`, params)
+                .then(res => res.length ?res[0] : undefined)
                 .catch(err => { throw err });
 }
 
@@ -58,18 +70,32 @@ const store = async () => {
 }
 
 /**
- * Store a new cart item.
+ * Create or update a cart item.
  * 
  * @param {Object} data New item data.
- * @returns {Number}    New item id.
+ * @returns {Number}    New or updated item id.
  */
 const add = async (data) => {
     if (data.pedido_id === undefined) {
         data.pedido_id = await store();
     }
 
+    const existing = await searchItem({ pedido_id, exhibicion_id, promocion_id } = data)
+
+    return await existing 
+        ? updateItem(existing.id, { ...existing, id: undefined })
+        : createItem(data)
+}
+
+/**
+ * Create a cart item.
+ * 
+ * @param {Object} data New item data.
+ * @returns {Number} New item id.
+ */
+const createItem = async (data) => {
     return await query(INSERT_ITEM, data)
-                .then(res => ({ id: res.resultId, ...data }))
+                .then(res => res.insertId)
                 .catch(err => { throw err });
 }
 
@@ -77,10 +103,11 @@ const add = async (data) => {
  * Update a cart item.
  * 
  * @param {Object} data New item data.
- * @returns {void}
+ * @returns {Number} The updated id.
  */
 const updateItem = async (id, data) => {
-    await query(`${UPDATE_ITEM} WHERE id = ${id}`, data)
+    return await query(`${UPDATE_ITEM} WHERE id = ${id}`, data)
+                .then(() => id)
                 .catch(err => { throw err });
 }
 

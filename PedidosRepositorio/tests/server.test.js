@@ -23,7 +23,8 @@ describe('Add item', () => {
         // arrange
         const item = items[Math.floor(Math.random() * items.length)]
 
-        model.add.mockResolvedValue(item);
+        model.add.mockResolvedValue(item.id);
+        model.getItem.mockResolvedValue(item);
 
         // act
         const res = await request.post('/items')
@@ -42,7 +43,8 @@ describe('Add item', () => {
         
         const new_cart_id = Math.ceil(Math.random() * 10)
 
-        model.add.mockResolvedValue({ ...item, pedido_id: new_cart_id });
+        model.add.mockResolvedValue(item.id);
+        model.getItem.mockResolvedValue({ ...item, pedido_id: new_cart_id });
 
         // act
         const res = await request.post('/items')
@@ -75,7 +77,7 @@ test('Update cart item', async () => {
 
     const data = { cantidad_boletos: Math.random() * 10 }
 
-    model.updateItem.mockResolvedValue({});
+    model.updateItem.mockResolvedValue(item.id);
 
     model.getItem.mockResolvedValue({ ...item, ...data });
 
