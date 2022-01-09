@@ -53,7 +53,18 @@ const getItem = async (id) => {
  * @returns {Object}
  */
 const searchItem = async (params) => {
-    return await query(`${SELECT_ITEMS} WHERE ? LIMIT 1`, params)
+    // fix: mysql library tries to compare null values like `value` = null
+    let where = 'WHERE ';
+
+    where += Object.entries(params).map(([f, v]) => {
+        if (v === null) {
+            return `${f} IS NULL`
+        } else {
+            return `${f} = ${v}`
+        }
+    }).join(' AND ')
+
+    return await query(`${SELECT_ITEMS} ${where} LIMIT 1`)
                 .then(res => res.length ?res[0] : undefined)
                 .catch(err => { throw err });
 }
@@ -83,7 +94,7 @@ const add = async (data) => {
     const existing = await searchItem({ pedido_id, exhibicion_id, promocion_id } = data)
 
     return await existing 
-        ? updateItem(existing.id, { ...existing, id: undefined })
+        ? updateItem(existing.id, { cantidad_boletos: existing.cantidad_boletos + 1 })
         : createItem(data)
 }
 
