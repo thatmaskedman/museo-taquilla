@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/thatmaskedman/museo-taquilla#readme",
   "dependencies": {
+    "archiver": "^5.3.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -40,8 +41,10 @@
     "express-async-errors": "^3.1.1",
     "express-http-proxy": "^1.6.3",
     "express-jwt": "^6.1.0",
+    "html-pdf": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "qrcode-generator": "^1.4.4",
     "shell-executor": "^6.0.1",
     "transacciones": "git+https://github.com/ger88555/transacciones.git",
     "uuid": "^8.3.2"

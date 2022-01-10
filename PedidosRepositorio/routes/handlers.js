@@ -2,7 +2,9 @@ const model = require('../model');
 const { RepositorioException } = require('../exceptions');
 const { BancoAPIException } = require('transacciones')
 const { getCartTotals } = require('../utils/totals');
-const bank = require('../utils/bank')
+const { printCartTickets } = require('../utils/printout');
+const bank = require('../utils/bank');
+const fs = require('fs');
 
 const get = (req, res, next) => {
     model.get(req.params.id).then(cart => {
@@ -60,12 +62,29 @@ const pay = (req, res, next) => {
         return model.setPayment(id, paymentData)        
     })
     // return updated cart info
-    .then(() => model.getItem(id))
-    .then(item => {
+    .then(() => model.get(id))
+    .then(cart => {
         res.json({
             success: true,
-            data: item
+            data: cart
         });
+    })
+    .catch(err => {
+        handleError(err, res);
+    })
+}
+
+const tickets = (req, res, next) => {
+    model.get(req.params.id)
+    .then(cart => {
+        return printCartTickets(cart, cart.items)
+    })
+    .then(path => {
+        res.writeHead(200, {
+            "Content-Type": "application/zip",
+            "Content-Disposition": "attachment; filename=boletos.zip"
+        });
+        fs.createReadStream(path).pipe(res, { end: true })
     })
     .catch(err => {
         handleError(err, res);
@@ -126,6 +145,7 @@ module.exports = {
     get,
     add,
     pay,
+    tickets,
     getItems,
     updateItem,
 }
