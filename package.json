@@ -43,6 +43,7 @@
     "express-jwt": "^6.1.0",
     "html-pdf": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "qrcode-generator": "^1.4.4",
     "shell-executor": "^6.0.1",

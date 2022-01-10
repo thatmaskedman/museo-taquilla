@@ -1,6 +1,7 @@
 const ToPDF = require('./htmlToPdf')
 const path = require('path');
 const fs = require('fs');
+const moment = require('moment')
 const archiver = require('archiver');
 const qrGenerator = require('qrcode-generator')
 
@@ -27,9 +28,9 @@ const printCartTickets = async (cart, items) => {
             const file = path.join(STORAGE_FOLDER, `${cart.id}`, `${ticketId}.pdf`)
 
             const vars = {
-                exhibition: 'Exhibición',
-                start: '',
-                end: '',
+                exhibition: item.exh_nombre,
+                start: moment(item.exh_desde).format('YYYY-MM-DD'),
+                end: moment(item.exh_hasta).format('YYYY-MM-DD'),
                 place: 'Museo MUAFS',
                 id: ticketId,
                 buyer: cart.nombre_cliente,
@@ -56,11 +57,10 @@ const getQR = (ticketId, cart) => {
  * @returns {Promise<string>} The new ZIP path.
  */
 const archiveCartTickets = async (cart) => {
-    // if ( !to ) {
-        const tickets = path.join(STORAGE_FOLDER, `${cart.id}/`)
-        const file = path.join(STORAGE_FOLDER, `${cart.id}.zip`)
-        const to = fs.createWriteStream(file)
-    // }
+    const tickets = path.join(STORAGE_FOLDER, `${cart.id}/`)
+    const file = path.join(STORAGE_FOLDER, `${cart.id}.zip`)
+    const to = fs.createWriteStream(file)
+
     const archive = archiver('zip', {
         zlib: { level: 9 }
     } )

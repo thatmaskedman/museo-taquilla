@@ -10,6 +10,13 @@ const INSERT_PAYMENT_FAILURE = 'INSERT INTO transacciones_fallidas';
 const SELECT_ITEMS = `SELECT * FROM detalles_pedidos`;
 const INSERT_ITEM = `INSERT INTO detalles_pedidos SET ?`;
 const UPDATE_ITEM = `UPDATE detalles_pedidos SET ?`;
+const SELECT_ITEMS_EXPANDED = "SELECT dp.*, e.nombre as exh_nombre, e.desde as exh_desde, e.hasta as exh_hasta, e.precio as exh_precio,\
+                                    pro.porcentaje as pro_porcentaje, pro.cantidad as pro_cantidad, tc.nombre as tc_nombre\
+                                    FROM detalles_pedidos dp\
+                                    INNER JOIN exhibiciones e ON dp.exhibicion_id = e.id\
+                                    LEFT JOIN promociones pro ON dp.promocion_id = pro.id\
+                                    LEFT JOIN  tipos_de_cliente tc ON pro.tipo_de_cliente_id = tc.id\
+                                    WHERE dp.pedido_id = ?";
 const SELECT_CART_TOTALS = "SELECT e.precio as exh_precio, pro.porcentaje as pro_porcentaje, pro.cantidad as pro_cantidad, dp.cantidad_boletos as ped_boletos\
                                     FROM detalles_pedidos dp\
                                     INNER JOIN exhibiciones e ON dp.exhibicion_id = e.id\
@@ -27,7 +34,7 @@ const get = async (id) => {
                 .then(res => res[0])
                 .catch(err => { throw err });
 
-    cart.items = await getItems(id);
+    cart.items = await getExpandedItems(id);
 
     return cart;
 }
@@ -87,6 +94,18 @@ const searchItem = async (params) => {
  */
 const getTotals = async (id) => {
     return await query(SELECT_CART_TOTALS, [id])
+                .then(res => res)
+                .catch(err => { throw err });
+}
+
+/**
+ * Get a listing of a cart's items along with their related tables data.
+ * 
+ * @param   {Number} id Cart id.
+ * @returns {Array} Entry structure: { ...item fields, `exh_*` for exhibition fields, `pro_*` for promo fields, `tc_*` for client type fields }
+ */
+const getExpandedItems = async (id) => {
+    return await query(SELECT_ITEMS_EXPANDED, [id])
                 .then(res => res)
                 .catch(err => { throw err });
 }
@@ -190,6 +209,7 @@ module.exports = {
     add,
     update,
     updateItem,
+    getExpandedItems,
     setFailedPayment,
     setPayment,
     getTotals,

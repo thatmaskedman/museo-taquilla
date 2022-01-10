@@ -19,7 +19,7 @@ const convert = async (template, vars, to) => {
  */
 const read = (html) => {
 
-    const action = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
         create(html, { format: 'Letter' }).toStream((err, s) => {
           if (err) reject(err)
@@ -27,12 +27,6 @@ const read = (html) => {
           else resolve(s)
         });
 
-    })
-
-    return action().catch(err => {
-        console.error('HTML to PDF convert() error: ', err);
-
-        throw err;
     });
 }
 
