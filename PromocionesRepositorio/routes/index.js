@@ -11,6 +11,7 @@ class Routes {
 
     config() {
         this.app.get('/', handlers.list);
+        this.app.post('/', handlers.receive)
         this.app.use((err, req, res, next) => {
             return handlers.handleError(err, res)
         });
