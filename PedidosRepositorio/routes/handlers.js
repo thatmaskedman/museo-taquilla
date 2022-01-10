@@ -1,5 +1,8 @@
 const model = require('../model');
 const { RepositorioException } = require('../exceptions');
+const { BancoAPIException } = require('transacciones')
+const { getCartTotals } = require('../utils/totals');
+const bank = require('../utils/bank')
 
 const get = (req, res, next) => {
     model.get(req.params.id).then(cart => {
@@ -16,6 +19,48 @@ const get = (req, res, next) => {
 const add = (req, res, next) => {
     model.add(req.body)
     .then(id => model.getItem(id))
+    .then(item => {
+        res.json({
+            success: true,
+            data: item
+        });
+    })
+    .catch(err => {
+        handleError(err, res);
+    })
+}
+
+const pay = (req, res, next) => {
+    const { id } = req.params
+    const { no_tarjeta, nombre_cliente, correo } = req.body
+
+    // calculate totals
+    model.getTotals(id)
+    .then(items => getCartTotals(items))
+    .then(totals => {
+        model.update(id, { ...totals, nombre_cliente, correo })
+
+        return totals
+    })
+    // process payment
+    .then(({ total }) => bank.recibir(no_tarjeta, total))
+    .catch(err => {
+        if (err instanceof BancoAPIException) {
+            const failedPaymentData = { terminacion_tarjeta: no_tarjeta.slice(-4) }
+
+            return model.setFailedPayment(id, failedPaymentData).then(() => { throw err })
+        }
+
+
+        throw err
+    })
+    .then(({ id_Transaccion }) => {
+        const paymentData = { terminacion_tarjeta: no_tarjeta.slice(-4), no_transaccion: id_Transaccion, en_efectivo: false }
+
+        return model.setPayment(id, paymentData)        
+    })
+    // return updated cart info
+    .then(() => model.getItem(id))
     .then(item => {
         res.json({
             success: true,
@@ -63,8 +108,8 @@ const updateItem = (req, res, next) => {
  * @param {Object} res The response.
  */
 const handleError = (err, res) => {
-    if (err instanceof RepositorioException) {
-        res.status(err.status).json({
+    if (err instanceof RepositorioException || err instanceof BancoAPIException) {
+        res.status(err.status || 500).json({
             success: false,
             message: err.message
         })
@@ -80,6 +125,7 @@ const handleError = (err, res) => {
 module.exports = {
     get,
     add,
+    pay,
     getItems,
     updateItem,
 }

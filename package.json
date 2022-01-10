@@ -43,6 +43,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "shell-executor": "^6.0.1",
+    "transacciones": "git+https://github.com/ger88555/transacciones.git",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
