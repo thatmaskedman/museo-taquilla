@@ -4,10 +4,10 @@ const { create, CreateOptions } = require('html-pdf');
 /**
  * @returns {Promise<void>}
  */
-const convert = async (template, vars, to) => {
+const convert = async (template, vars, to, opts = undefined) => {
     const replacedHTML = getReplaced(template, vars);
     
-    await read(replacedHTML).then(s => write(s, to)).catch(err => {
+    await read(replacedHTML, opts).then(s => write(s, to)).catch(err => {
         console.log(err)
 
         throw err
@@ -15,13 +15,15 @@ const convert = async (template, vars, to) => {
 }
 
 /**
+ * @param {string} HTML
+ * @param {CreateOptions} opts
  * @returns {Promise<ReadStream>}
  */
-const read = (html) => {
+const read = (html, opts = { format: 'Letter' }) => {
 
     return new Promise((resolve, reject) => {
 
-        create(html, { format: 'Letter' }).toStream((err, s) => {
+        create(html, opts).toStream((err, s) => {
           if (err) reject(err)
     
           else resolve(s)
