@@ -7,6 +7,15 @@ Transacciones({
 })
 
 if (motherlode)
-    module.exports = { recibir: () => ({ id_Transaccion : null }) }
+    module.exports = {
+        recibir: async () => {
+            const mock = new Promise((res) => {
+                console.log('waiting for bank response...')
+                setTimeout(() => res({ id_Transaccion: null }), 2500)
+            })
+
+            return await mock
+        }
+    }
 else
     module.exports = Transacciones()
