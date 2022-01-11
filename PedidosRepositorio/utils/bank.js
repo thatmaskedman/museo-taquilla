@@ -11,7 +11,7 @@ if (motherlode)
         recibir: async () => {
             const mock = new Promise((res) => {
                 console.log('waiting for bank response...')
-                setTimeout(() => res({ id_Transaccion: null }), 1500)
+                setTimeout(() => res({ id_Transaccion: null }), 2000)
             })
 
             return await mock
